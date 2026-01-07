@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kym’s Kicks | The Campus Plug</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff3e3e; 
+            --dark: #0a0a0a;
+            --light: #ffffff;
+            --grey: #161616;
+            --success: #25D366;
+        }
+
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--dark); 
+            color: var(--light); 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Navigation */
+        nav {
+            position: fixed; width: 100%; padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.95); z-index: 1000; border-bottom: 1px solid #222;
+        }
+        .logo { font-family: 'Bebas Neue', cursive; font-size: 2.2rem; color: var(--primary); letter-spacing: 2px; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Hero Carousel Section */
+        header {
+            height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            animation: carousel 15s infinite; 
+            position: relative;
+        }
+
+        @keyframes carousel {
+            0%, 33% { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&q=80&w=1000'); }
+            34%, 66% { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=1000'); }
+            67%, 100% { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1000'); }
+        }
+
+        .hero-content h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(4rem, 12vw, 7rem); line-height: 0.8; margin-bottom: 20px; animation: fadeInUp 1s ease; }
+        .hero-content p { font-size: 1.2rem; margin-bottom: 30px; letter-spacing: 3px; color: #ccc; }
+
+        .btn { 
+            background: var(--primary); color: white; padding: 18px 45px; 
+            text-decoration: none; border-radius: 5px; font-weight: bold; 
+            text-transform: uppercase; transition: 0.3s; display: inline-block;
+            border: none; cursor: pointer;
+        }
+        .btn:hover { background: white; color: black; transform: scale(1.05); }
+
+        /* Sections */
+        section { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-family: 'Bebas Neue', cursive; font-size: 4rem; margin-bottom: 50px; color: var(--primary); text-align: center; }
+
+        /* Services Grid */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .service-card { background: var(--grey); padding: 40px; border-radius: 15px; transition: 0.4s; text-align: center; border: 1px solid #222; }
+        .service-card:hover { border-color: var(--primary); transform: translateY(-10px); }
+        .service-card h3 { color: var(--primary); font-size: 1.5rem; margin-bottom: 15px; }
+
+        /* Gallery Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .gallery-item { 
+            height: 450px; background-size: cover; background-position: center; 
+            border-radius: 15px; position: relative; overflow: hidden; transition: 0.5s;
+        }
+        .gallery-item:hover { transform: scale(0.98); }
+        .gallery-overlay { 
+            position: absolute; inset: 0; background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 30px;
+            opacity: 0; transition: 0.4s;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .price { font-size: 1.5rem; font-weight: bold; color: var(--success); margin: 10px 0; }
+
+        /* REVIEWS SECTION */
+        #reviews { background: #050505; max-width: 100%; width: 100%; }
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .review-card { background: var(--grey); padding: 30px; border-radius: 10px; font-style: italic; position: relative; }
+        .review-card::before { content: "“"; font-size: 4rem; color: var(--primary); position: absolute; top: -10px; left: 10px; opacity: 0.3; }
+        .client-name { display: block; margin-top: 15px; color: var(--primary); font-weight: bold; font-style: normal; }
+
+        /* M-PESA MODAL */
+        #paymentModal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+        }
+        .modal-content {
+            background: #111; margin: 10% auto; padding: 40px;
+            border: 2px solid var(--primary); width: 90%; max-width: 450px;
+            text-align: center; border-radius: 20px; animation: fadeInUp 0.5s ease;
+        }
+        .mpesa-logo { width: 120px; margin-bottom: 20px; }
+
+        /* Footer */
+        footer { padding: 60px; text-align: center; border-top: 1px solid #222; background: #000; }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background: var(--success); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 1000; transition: 0.3s; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">KYM’S KICKS</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#gallery">Drops</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <header id="home">
+        <div class="hero-content">
+            <h1>FORM NI LUKU</h1>
+            <p>NO FAKES. JUST FLAMES.</p>
+            <a href="#gallery" class="btn">Explore the Vault</a>
+        </div>
+    </header>
+
+    <section id="services" class="reveal">
+        <h2 class="section-title">The Plug Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Hostel Delivery 🚚</h3>
+                <p>Tunafika hadi gate ya uni ama mlango ya hostel. No long stories.</p>
+            </div>
+            <div class="service-card">
+                <h3>Custom Sourcing 🔍</h3>
+                <p>Umeona luku Pinterest? Nitumie picha, Kym ataicheki.</p>
+            </div>
+            <div class="service-card">
+                <h3>Squad Discounts 💸</h3>
+                <p>Chukueni viatu mbili na besty yako tupunguze bei.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="reveal">
+        <h2 class="section-title">Latest Rotation</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1000')">
+                <div class="gallery-overlay">
+                    <h3>Air Max 90</h3>
+                    <p class="price">KSH 4,500</p>
+                    <button class="btn" onclick="openPayment()">Lipa na M-Pesa</button>
+                </div>
+            </div>
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000')">
+                <div class="gallery-overlay">
+                    <h3>Jordan 1 High</h3>
+                    <p class="price">KSH 5,800</p>
+                    <button class="btn" onclick="openPayment()">Lipa na M-Pesa</button>
+                </div>
+            </div>
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000')">
+                <div class="gallery-overlay">
+                    <h3>Retro Lows</h3>
+                    <p class="price">KSH 3,800</p>
+                    <button class="btn" onclick="openPayment()">Lipa na M-Pesa</button>
+                </div>
+            </div>
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=1000')">
+                <div class="gallery-overlay">
+                    <h3>Dunk Panda</h3>
+                    <p class="price">KSH 4,200</p>
+                    <button class="btn" onclick="openPayment()">Lipa na M-Pesa</button>
+                </div>
+            </div>
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1000')">
+                <div class="gallery-overlay">
+                    <h3>Neon Runner</h3>
+                    <p class="price">KSH 5,000</p>
+                    <button class="btn" onclick="openPayment()">Lipa na M-Pesa</button>
+                </div>
+            </div>
+            <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1000')">
+                <div class="gallery-overlay">
+                    <h3>Classic Old Skool</h3>
+                    <p class="price">KSH 3,500</p>
+                    <button class="btn" onclick="openPayment()">Lipa na M-Pesa</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="reveal">
+        <h2 class="section-title">Street Cred</h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                "Kym ni msee legit. Viatu zilifika hostel zikiwa fiti sana na ziko na luku mbaya!"
+                <span class="client-name">- Brian (Main Campus)</span>
+            </div>
+            <div class="review-card">
+                "Nimekuwa nikitafuta hizi Dunks miezi sita, Kym akanigetia in 2 days. The real plug."
+                <span class="client-name">- Stacy (Medical School)</span>
+            </div>
+            <div class="review-card">
+                "Quality ni top tier. Hata uki-wash hazipotezi rangi. Nitarudi hapa saba mara saba."
+                <span class="client-name">- Kevin (Law Campus)</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="reveal">
+        <div style="text-align: center;">
+            <h2 class="section-title">Holla at Kym</h2>
+            <p style="margin-bottom: 40px;">Text or Call for serious business only. 24/7 Delivery.</p>
+            <h1 style="font-size: 3rem; color: var(--success); letter-spacing: 2px;">0758475709</h1>
+            <p style="margin-top: 15px; color: #666;">Located near the University Main Gate</p>
+        </div>
+    </section>
+
+    <div id="paymentModal">
+        <div class="modal-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/1200px-M-PESA_LOGO-01.svg.png" class="mpesa-logo">
+            <h2>Lipa na M-Pesa</h2>
+            <p style="margin: 20px 0;">Till Number: <strong style="color: var(--success); font-size: 2rem;">5847570</strong></p>
+            <p style="font-size: 0.9rem; color: #aaa;">1. Select Buy Goods & Services<br>2. Enter Till Number<br>3. Send Screenshot to WhatsApp</p>
+            <button onclick="closeModal()" class="btn" style="margin-top: 25px;">Back to Shop</button>
+        </div>
+    </div>
+
+    <a href="https://wa.me/254758475709" class="whatsapp-float">WhatsApp Kym 📲</a>
+
+    <footer>
+        <p>&copy; 2026 Kym's Kicks. Designed for the Streets. Form ni Luku!</p>
+    </footer>
+
+    <script>
+        // Modal Logic
+        function openPayment() { document.getElementById('paymentModal').style.display = 'block'; }
+        function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
+
+        // Animation on Scroll Logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Run on load
+    </script>
+
+</body>
+</html>
